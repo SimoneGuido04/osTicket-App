@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#128c7e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>osTicket - User Directory</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b border-primary/10">
+<div class="flex items-center gap-3">
+<div class="text-primary flex size-10 items-center justify-center rounded-lg bg-primary/10">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Directory</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex size-10 items-center justify-center rounded-lg bg-primary text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">person_add</span>
+</button>
+</div>
+</header>
+<!-- Search Bar Section -->
+<div class="px-4 py-4">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-primary/60 flex border-none bg-primary/5 dark:bg-white/5 items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-xl text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-1 focus:ring-primary border-none bg-primary/5 dark:bg-white/5 h-full placeholder:text-primary/40 px-4 pl-2 text-base font-normal leading-normal" placeholder="Search users or organizations" value=""/>
+</div>
+</label>
+</div>
+<!-- Tab Selection -->
+<div class="px-4">
+<div class="flex border-b border-primary/10 gap-8">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2" href="#">
+<p class="text-sm font-bold leading-normal tracking-wide">Users</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2 hover:text-primary transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-wide">Organizations</p>
+</a>
+</div>
+</div>
+<!-- User List Section -->
+<div class="flex flex-col divide-y divide-primary/5 px-2">
+<!-- List Item 1 -->
+<div class="flex gap-4 px-4 py-4 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors cursor-pointer rounded-xl mx-2">
+<div class="relative shrink-0">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 flex items-center justify-center text-primary font-bold text-lg" data-alt="Professional portrait of a male user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5rbO4QTEhwYO8iaVOlwOUDREMrsRPCmAd4HoAdMe4PsWQlQdlXaV0MOcPuWwTOZScwMhazwIlseX6a7xkgf7XT0YgBBDJVSHJUeX8mFgDJEGgcVTkOxLvU5nwfICrhrnUqid-hcl8MHH2JwaeO4os-ABsRT6ELNB75VHVEh3nxsw6EV_TOjygrvQHy_ty_iGeJMFBlsZtMI0Why2niMj750WB3bBSaINg58U4KA07BcZmN5LRyKodF357S8Z7u2dGqAWAjgue4DA");'>
+</div>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background-light dark:border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col justify-center min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-tight truncate">Johnathan Doe</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">corporate_fare</span>
+<p class="text-primary/80 text-xs font-medium leading-none truncate">Acme Global Industries</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-tight mt-1 truncate">john.doe@example.com</p>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex gap-4 px-4 py-4 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors cursor-pointer rounded-xl mx-2">
+<div class="relative shrink-0">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 flex items-center justify-center text-primary font-bold text-lg" data-alt="Professional portrait of a female user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtyWX7HhLxzCz1gIhI03Kiv9CO64tT2QDS3oMPMsf8HXsTXGns4d51mu95dEF8gwEsluCKYAK4iIvQAortiKaJyZWzZyqKhO1WYiORYN1tYKj07eBVElnTbVBPRO-dQLxWoGDYfAAlpuBTXpn7F2HhL-yP5yLJN4jpThXGLAX83GzJp_SJ67PQ4TbU4dLjsSnD9hrTpE67qbBwY2o3mM2EmQKLPVzOfvvqn5JzP3-mcUvnWSmeAmUElY0FP9cGT7UbHX2dG3Z0Spg");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-center min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-tight truncate">Sarah Jenkins</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">corporate_fare</span>
+<p class="text-primary/80 text-xs font-medium leading-none truncate">Stark Tech</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-tight mt-1 truncate">s.jenkins@starktech.io</p>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex gap-4 px-4 py-4 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors cursor-pointer rounded-xl mx-2">
+<div class="relative shrink-0">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 flex items-center justify-center text-primary font-bold text-lg" data-alt="Professional portrait of a male user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCb-2t-P6V1wIdSUmIFDc7EE3wnQBcBfsAJIPephDoFnHjR8noLLfnbEsMCASOyWw5KzHdvMvC_6rMMGNzKwFrTTLpFgud8f3NXZRY1OT8bTExtTYfUtl-AGK-mYjzrMJfxlZ0GbfuRxKjyJsMBnrx-KLfuI1GskA9ZxysqZhWMJRAsPziFcbLV5WHH5QkYGd_X_ndwD1kCsvFyPr9GeB8hydv1qqMQqzUUFnGBEQZShGoHRK0ANYBCuBZiRxnCi0FP3LUzCkPq5AI");'>
+</div>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-slate-300 border-2 border-background-light dark:border-background-dark"></div>
+</div>
+<div class="flex flex-1 flex-col justify-center min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-tight truncate">Michael Chen</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">corporate_fare</span>
+<p class="text-primary/80 text-xs font-medium leading-none truncate">Nebula Cloud Services</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-tight mt-1 truncate">m.chen@nebula.net</p>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- List Item 4 -->
+<div class="flex gap-4 px-4 py-4 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors cursor-pointer rounded-xl mx-2">
+<div class="relative shrink-0">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 flex items-center justify-center text-primary font-bold text-lg" data-alt="Professional portrait of a female user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz5GXNx5HV664Knu2bfOwnJDFglIsBL-kLykMZk7QSJyOXmnK_fcvSATSwyhDXaRT1uvyhKJD8NgL_MoFbR5o9XJwOdKFlsSG6woIduQIsdl7g0dhEOxS67BfynphX6_l0DslzVGuZKaU6T7-yUdqhzTU_dIB0w8HRPtaTOZ4MmH4BM1Bp4zjlJiu-PWmYt3Q3QbPz5k9Jm1XPayLJUcLgTZ61TFsRiVjoT4u6kvZDpbBZt7doTHMCcCTN4lR-BDn9_6yFr7pZpMM");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-center min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-tight truncate">Elena Rodriguez</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">corporate_fare</span>
+<p class="text-primary/80 text-xs font-medium leading-none truncate">Rodriguez &amp; Associates</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-tight mt-1 truncate">elena@rod-law.com</p>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+<!-- List Item 5 -->
+<div class="flex gap-4 px-4 py-4 hover:bg-primary/5 dark:hover:bg-white/5 transition-colors cursor-pointer rounded-xl mx-2">
+<div class="relative shrink-0">
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full h-12 w-12 flex items-center justify-center text-primary font-bold text-lg" data-alt="Professional portrait of a male user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvowiKAWls7rNAodWKIDRbZNUcFbuFlxGLGYY9ZIUBlug0SF6TAzJ7yc6u7OZHunuXDVUv4y1JztSj4yL1aumIHQ00j4bwGkiuZtPVw_DBXO3Qea2zvEG36ycXdb1syAXzkHseg6kvUTm_w5oO-2Vc3wdlSotnELKlxMnS7ulNisiJqA9Wf1k1cmeOG8ZjGmkebo_dvKJYUZpIyd8gYkOON41bTsf7ZVbqqeEke2SgxjKImT40vKEzGjC4Z1RfTBbAZ1NK5A7anh0");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-center min-w-0">
+<p class="text-slate-900 dark:text-slate-100 text-base font-semibold leading-tight truncate">David Wilson</p>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">corporate_fare</span>
+<p class="text-primary/80 text-xs font-medium leading-none truncate">Freelance</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-normal leading-tight mt-1 truncate">david.w@gmail.com</p>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</div>
+</div>
+</div>
+<div class="h-24"></div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 flex border-t border-primary/10 bg-background-light dark:bg-background-dark px-2 pb-6 pt-2 z-10">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<p class="text-[10px] font-semibold leading-normal tracking-wide">Tickets</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-[1]">group</span>
+<p class="text-[10px] font-semibold leading-normal tracking-wide">Users</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">corporate_fare</span>
+<p class="text-[10px] font-semibold leading-normal tracking-wide">Orgs</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-[10px] font-semibold leading-normal tracking-wide">Settings</p>
+</a>
+</nav>
+</div>
+</body></html>

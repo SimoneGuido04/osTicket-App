@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#128c7e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>osTicket - Ticket Detail View</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header / Navigation -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<a class="text-primary hover:bg-primary/10 p-2 rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div>
+<h1 class="text-lg font-bold leading-tight">#49201 - VPN Connectivity Issue</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Opened 2 hours ago by Sarah Jenkins</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-primary/10 rounded-full text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 hover:bg-primary/10 rounded-full text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Ticket Summary Card -->
+<section class="p-4 border-b border-primary/10 bg-white dark:bg-slate-900/50">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Priority</span>
+<span class="text-sm font-semibold flex items-center gap-1 text-red-600">
+<span class="size-2 bg-red-600 rounded-full"></span> Emergency
+                </span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">SLA Plan</span>
+<span class="text-sm font-semibold">Critical Support (4h)</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Department</span>
+<span class="text-sm font-semibold">IT Infrastructure</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Assigned To</span>
+<div class="flex items-center gap-2">
+<div class="size-5 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">JD</div>
+<span class="text-sm font-semibold">John Doe</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap gap-2">
+<button class="flex-1 min-w-[120px] bg-primary text-white py-2.5 px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-sm">reply</span> Reply
+            </button>
+<button class="flex-1 min-w-[120px] bg-primary/10 text-primary border border-primary/20 py-2.5 px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">note_add</span> Internal Note
+            </button>
+<button class="px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg font-bold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                Close Ticket
+            </button>
+</div>
+</section>
+<!-- Scrollable Chat Area -->
+<main class="flex-1 overflow-y-auto p-4 space-y-6 bg-background-light dark:bg-background-dark">
+<!-- System Event -->
+<div class="flex justify-center">
+<span class="text-[11px] bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full text-slate-500 font-medium">Ticket created via Web Portal • 10:15 AM</span>
+</div>
+<!-- Client Message -->
+<div class="flex items-start gap-3 max-w-[85%]">
+<div class="size-10 rounded-full bg-slate-300 shrink-0 overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm" data-alt="Portrait of the client Sarah Jenkins" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuACPwvdcKoEEnNpC7qhN9kgbiwTHKLDg2fIQDebsEVMOk8x8Mxe8Xn1bGd_MBUK46e5KEm4ADFN85ZvxK0IwPZi2plJR6bzXcfotqv5A00ADvpA-9b3KpdqxXtM-h4M_daQZt9xpVR_sml32gvt9epnnTZiyTV0N89dlt0VsIj7iFrpFnAsUSjEWzr0CagXdIidJHo_lkoqWe1e_XRdkPr97bF5Q9oKhT2McJlGX79-TRYEq3OrUizr2rjGeWb21E9NzSoUahCLsSw')"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 px-1">
+<span class="text-xs font-bold">Sarah Jenkins</span>
+<span class="text-[10px] text-slate-400">10:15 AM</span>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl rounded-tl-none shadow-sm border border-primary/5">
+<p class="text-sm leading-relaxed">
+                        Hi team, I'm unable to connect to the corporate VPN from home. I'm getting an "Authentication Failed" error even though my credentials work for email. This is urgent as I need to access the production database.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Internal Note -->
+<div class="flex flex-col items-center gap-2">
+<div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/30 p-4 rounded-xl max-w-[90%] w-full relative">
+<div class="absolute -top-2.5 left-4 bg-amber-200 dark:bg-amber-900 text-amber-800 dark:text-amber-100 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">Internal Note</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-xs font-bold text-amber-800 dark:text-amber-200">System Bot</span>
+<span class="text-[10px] text-amber-600 dark:text-amber-400/60">10:20 AM</span>
+</div>
+<p class="text-sm text-amber-900 dark:text-amber-100/80 italic">
+                    Automated check: User account is active in AD. No lockouts detected. Routing to Infrastructure Tier 2.
+                </p>
+</div>
+</div>
+<!-- Staff Reply -->
+<div class="flex items-start gap-3 flex-row-reverse max-w-[85%] ml-auto">
+<div class="size-10 rounded-full bg-primary/20 shrink-0 overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm flex items-center justify-center text-primary font-bold">JD</div>
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-2 px-1">
+<span class="text-[10px] text-slate-400">10:45 AM</span>
+<span class="text-xs font-bold">John Doe (Staff)</span>
+</div>
+<div class="bg-primary text-white p-4 rounded-xl rounded-tr-none shadow-sm">
+<p class="text-sm leading-relaxed">
+                        Hi Sarah, I've checked the VPN logs. It looks like your certificate expired yesterday. I've pushed a manual renewal to your device. Please try connecting again in 5 minutes and let me know if it works.
+                    </p>
+</div>
+<div class="mt-1 flex gap-2">
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/20">Sent via Email</span>
+</div>
+</div>
+</div>
+<!-- Client Message -->
+<div class="flex items-start gap-3 max-w-[85%]">
+<div class="size-10 rounded-full bg-slate-300 shrink-0 overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm" data-alt="Portrait of Sarah Jenkins" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7PF4ReAXWk59Bc6638JHsdcuCX8qrGLKQp_68YGQlVqC4G00T6bJL_rdeQsLMSDPKOBwwQq5aE0_7MLSAFXNCf5qpMj0xnZpIgbB9oQYeQ5gVlk6Q53e40eD9o5SVpHI3ZF8GMQ8nAC8hNSgYpEjtuKXYejem0fnFfbHNOKNyAtKcy6j24GCnPVKL1yUTMXvF_C1nhdIwagaHR5QF6JzaH_m_afOImWn2mFxD1nkIP6mlH9qa3nQTdmXvKV9Vw47FBNToxSYnndY')"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 px-1">
+<span class="text-xs font-bold">Sarah Jenkins</span>
+<span class="text-[10px] text-slate-400">11:05 AM</span>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl rounded-tl-none shadow-sm border border-primary/5">
+<p class="text-sm leading-relaxed">
+                        That fixed it! Thank you so much for the quick response.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Metadata Section / Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-primary/10 p-4">
+<div class="max-w-4xl mx-auto space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Ticket Metadata</h3>
+<button class="text-xs text-primary font-bold">View Full Audit Log</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Source:</span>
+<span class="font-medium">Web Portal</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">IP Address:</span>
+<span class="font-medium">192.168.1.45</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Help Topic:</span>
+<span class="font-medium">Remote Access / VPN</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Last Message:</span>
+<span class="font-medium">11:05 AM</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Collaborators:</span>
+<span class="font-medium text-primary">None</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Attachments:</span>
+<span class="font-medium">0 files</span>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation Bar (Mobile Style) -->
+<nav class="flex border-t border-primary/10 bg-white dark:bg-slate-900 px-2 pb-safe pt-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 py-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">confirmation_number</span>
+<p class="text-[10px] font-bold">Tickets</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-[10px] font-medium">Users</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-[10px] font-medium">Reports</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-[10px] font-medium">Settings</p>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#128c7e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden" style="--select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(18,140,126)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');">
+<!-- Top App Bar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-primary/10">
+<div class="text-primary flex size-12 shrink-0 items-center justify-start cursor-pointer">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">New Ticket</h2>
+</div>
+<div class="max-w-xl mx-auto w-full flex flex-col gap-2 p-4">
+<!-- Subject Field -->
+<!-- User / Requester Selection -->
+<div class="flex flex-col gap-2 py-3">
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal">User / Requester</p>
+<button class="text-primary text-sm font-semibold hover:underline transition-all cursor-pointer">Select from Directory</button>
+</div>
+<div class="relative flex w-full">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+<span class="material-symbols-outlined text-xl">contact_page</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 bg-white dark:bg-slate-800 h-14 placeholder:text-slate-400 pl-12 pr-[15px] py-[15px] text-base font-normal leading-normal" placeholder="Search user by name or email..." value=""/>
+</div>
+</div><div class="flex flex-wrap items-end gap-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal pb-2">Subject</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 bg-white dark:bg-slate-800 h-14 placeholder:text-slate-400 p-[15px] text-base font-normal leading-normal" placeholder="Brief summary of the issue" value=""/>
+</label>
+</div>
+<!-- Department Selection -->
+<div class="flex flex-wrap items-end gap-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal pb-2">Department</p>
+<select class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 bg-white dark:bg-slate-800 h-14 bg-[image:--select-button-svg] placeholder:text-slate-400 p-[15px] text-base font-normal leading-normal">
+<option disabled="" selected="" value="">Select a department</option>
+<option value="support">Support</option>
+<option value="billing">Billing</option>
+<option value="technical">Technical Assistance</option>
+<option value="sales">Sales</option>
+</select>
+</label>
+</div>
+<!-- Priority -->
+<div class="py-3">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal pb-2">Priority</h3>
+<div class="flex h-12 flex-1 items-center justify-center rounded-lg bg-primary/10 p-1">
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+<span class="truncate">Low</span>
+<input class="hidden" name="priority" type="radio" value="Low"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+<span class="truncate">Normal</span>
+<input checked="" class="hidden" name="priority" type="radio" value="Normal"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+<span class="truncate">High</span>
+<input class="hidden" name="priority" type="radio" value="High"/>
+</label>
+<label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-500 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+<span class="truncate">Emergency</span>
+<input class="hidden" name="priority" type="radio" value="Emergency"/>
+</label>
+</div>
+</div>
+<!-- Message/Description -->
+<div class="flex flex-wrap items-end gap-4 py-3">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-slate-900 dark:text-slate-100 text-base font-medium leading-normal pb-2">Message</p>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-primary/20 bg-white dark:bg-slate-800 min-h-[160px] placeholder:text-slate-400 p-[15px] text-base font-normal leading-normal" placeholder="Describe your issue in detail..."></textarea>
+</label>
+</div>
+<!-- Attach Files -->
+<div class="py-3">
+<button class="flex items-center justify-center w-full gap-2 rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 p-4 text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+<span class="font-medium">Attach Files</span>
+</button>
+</div>
+<!-- Submit Button -->
+<div class="pt-6 pb-12">
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-transform">
+                    Submit Ticket
+                </button>
+</div>
+</div>
+<!-- Navigation Placeholder (Bottom) -->
+<div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-primary/10 flex justify-around p-3 md:hidden">
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px]">Home</span>
+</div>
+<div class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="text-[10px]">Tickets</span>
+</div>
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</div>
+</div>
+</div>
+</body></html>

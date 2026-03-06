@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#128c7e",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>osTicket Knowledge Base</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="sticky top-0 z-10 flex items-center bg-white/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center">Knowledge Base</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="text-primary flex items-center justify-center rounded-full hover:bg-primary/10 p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<main class="flex-1 pb-24">
+<div class="px-4 py-5">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-primary">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full p-4 pl-12 text-sm text-slate-900 bg-white dark:bg-slate-800 border-none rounded-xl ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-primary focus:outline-none shadow-sm transition-all" placeholder="Search for articles, guides..." type="text"/>
+</div>
+</div>
+<section class="px-4 mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Categories</h3>
+<a class="text-primary text-sm font-semibold" href="#">View all</a>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">info</span>
+</div>
+<h4 class="text-slate-900 dark:text-slate-100 text-sm font-bold">General</h4>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<h4 class="text-slate-900 dark:text-slate-100 text-sm font-bold">Technical</h4>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<h4 class="text-slate-900 dark:text-slate-100 text-sm font-bold">HR Support</h4>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h4 class="text-slate-900 dark:text-slate-100 text-sm font-bold">Billing</h4>
+</div>
+</div>
+</section>
+<section class="px-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Popular Articles</h3>
+</div>
+<div class="space-y-3">
+<article class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-primary">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold text-sm mb-1 leading-snug">How to reset your password</h4>
+<p class="text-slate-500 dark:text-slate-400 text-xs line-clamp-2">Learn the steps to securely reset your corporate account password through the portal.</p>
+<div class="flex items-center gap-3 mt-2 text-[10px] text-slate-400 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">visibility</span> 1.2k views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">calendar_today</span> 2 days ago</span>
+</div>
+</div>
+</article>
+<article class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-primary">wifi</span>
+</div>
+<div class="flex-1">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold text-sm mb-1 leading-snug">Connecting to Office VPN</h4>
+<p class="text-slate-500 dark:text-slate-400 text-xs line-clamp-2">Troubleshooting guide for remote workers experiencing connection drops on the VPN.</p>
+<div class="flex items-center gap-3 mt-2 text-[10px] text-slate-400 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">visibility</span> 856 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">calendar_today</span> 1 week ago</span>
+</div>
+</div>
+</article>
+<article class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-4">
+<div class="bg-slate-50 dark:bg-slate-800 p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<div class="flex-1">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold text-sm mb-1 leading-snug">Email Archiving Policy</h4>
+<p class="text-slate-500 dark:text-slate-400 text-xs line-clamp-2">Guidelines on how to archive your emails to stay within the storage quota limits.</p>
+<div class="flex items-center gap-3 mt-2 text-[10px] text-slate-400 font-medium">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">visibility</span> 432 views</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">calendar_today</span> 2 weeks ago</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-20 flex gap-2 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md px-4 pb-6 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Tickets</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">book_5</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Knowledge</p>
+</a>
+<div class="relative flex-1 flex flex-col items-center justify-center">
+<div class="absolute -top-10 bg-primary text-white p-4 rounded-full shadow-lg shadow-primary/40 border-4 border-white dark:border-background-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">add</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-tight mt-6 text-slate-400 dark:text-slate-500">New</p>
+</div>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Updates</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<p class="text-xs font-medium leading-normal tracking-tight">Profile</p>
+</a>
+</nav>
+</div>
+</body></html>
