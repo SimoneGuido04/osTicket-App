@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useColorScheme } from 'nativewind';
 import React, { useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { useColorScheme } from '../../hooks/use-color-scheme';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function ProfileScreen() {
