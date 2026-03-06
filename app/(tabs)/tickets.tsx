@@ -9,9 +9,11 @@ interface Ticket {
     ticket_id: number;
     number: string;
     status: string;
+    status_id: number | string;
     name: string;
     subject: string;
     created: string;
+    isoverdue: number | string;
 }
 
 export default function TicketsScreen() {
@@ -55,9 +57,9 @@ export default function TicketsScreen() {
 
         // Apply filter chip
         if (activeFilter === 'Open') {
-            list = list.filter(t => String(t.status).toLowerCase().includes('open') || String(t.status) === '1');
+            list = list.filter(t => String(t.status_id) === '1');
         } else if (activeFilter === 'Closed') {
-            list = list.filter(t => String(t.status).toLowerCase().includes('close') || String(t.status) === '3');
+            list = list.filter(t => String(t.status_id) === '3');
         }
         // 'My Tickets' and 'All Tickets' pass through for now (requires staff_id matching via useAuth)
 
@@ -75,14 +77,14 @@ export default function TicketsScreen() {
     }, [tickets, activeFilter, searchQuery]);
 
     const openCount = useMemo(() => {
-        return tickets.filter(t => String(t.status).toLowerCase().includes('open') || String(t.status) === '1').length;
+        return tickets.filter(t => String(t.status_id) === '1').length;
     }, [tickets]);
 
     const renderTicket = ({ item }: { item: Ticket }) => {
         // osTicket numeric statuses generally: 1=Open, 2=Resolved, 3=Closed (varies by setup)
         // Adjusting logic to display gracefully even if string vs int
-        const isClosed = String(item.status).toLowerCase().includes('close') || item.status == '3';
-        const isOpen = String(item.status).toLowerCase().includes('open') || item.status == '1';
+        const isClosed = String(item.status_id) === '3';
+        const isOpen = String(item.status_id) === '1';
 
         const displayStatus = isClosed ? 'Closed' : (isOpen ? 'Open' : 'Pending');
 

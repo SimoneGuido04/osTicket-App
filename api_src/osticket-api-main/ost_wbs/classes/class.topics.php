@@ -9,7 +9,7 @@ class Topics
         $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
         // Check Request method
-        $validRequests = array("GET");
+        $validRequests = array("GET", "POST");
         Helper::validRequest($validRequests);
 
         // Connect Database
@@ -56,7 +56,7 @@ class Topics
     public function specific($parameters)
     {
         // Check Request method
-        $validRequests = array("GET");
+        $validRequests = array("GET", "POST");
         Helper::validRequest($validRequests);
 
         // Connect Database

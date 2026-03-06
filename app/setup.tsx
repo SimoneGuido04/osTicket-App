@@ -62,7 +62,7 @@ export default function SetupScreen() {
                             <View className="relative justify-center">
                                 <TextInput
                                     className="w-full rounded-xl text-slate-900 dark:text-slate-100 border border-primary/20 bg-white dark:bg-slate-800/50 focus:border-primary h-14 p-[15px] pl-12 text-base"
-                                    placeholder="https://support.yourdomain.com"
+                                    placeholder="https://support.yourdomain.com/ost_wbs"
                                     placeholderTextColor="#94a3b8"
                                     value={url}
                                     onChangeText={setUrlInput}

@@ -34,7 +34,9 @@ class Ticket
                     'closed'=>$result->closed,
                     'lastupdate'=>$result->lastupdate,
                     'created'=>$result->created,
-                    'updated'=>$result->updated
+                    'updated'=>$result->updated,
+                    'poster_name' => utf8_encode($result->poster_name),
+                    'thread_type' => $result->thread_type
             );
         }  
 
@@ -45,7 +47,7 @@ class Ticket
             $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
             // Check Request method
-            $validRequests = array("GET");
+            $validRequests = array("GET", "POST");
             Helper::validRequest($validRequests);
 
             // Connect Database
@@ -61,7 +63,20 @@ class Ticket
                     $endDate = $parameters['parameters']['end_date'];
 
                     // Query
-                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate'");
+                    $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                        CASE 
+                            WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                            WHEN T4.user_id > 0 THEN U.name
+                            ELSE 'System'
+                        END AS poster_name,
+                        T4.type as thread_type
+                        FROM ".TABLE_PREFIX."ticket T1 
+                        INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                        LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                        LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id
+                        WHERE T1.created >= '$startDate' and T1.created <= '$endDate'");
 
                 break;
                 // Sorte by Last Update Date
@@ -72,7 +87,20 @@ class Ticket
                     $endDate = $parameters['parameters']['end_date'];
 
                     // Query
-                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.lastupdate >= '$startDate' and ".TABLE_PREFIX."ticket.lastupdate <= '$endDate'");
+                    $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                        CASE 
+                            WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                            WHEN T4.user_id > 0 THEN U.name
+                            ELSE 'System'
+                        END AS poster_name,
+                        T4.type as thread_type
+                        FROM ".TABLE_PREFIX."ticket T1 
+                        INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                        LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                        LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id
+                        WHERE T1.lastupdate >= '$startDate' and T1.lastupdate <= '$endDate'");
 
                 break;
                 // Sorte by Status
@@ -85,10 +113,35 @@ class Ticket
                     // 0 value does not exist, so it is equal to "all records"
                     switch ($tStatus) {
                         case 0:
-                            $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id");
+                            $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                                CASE 
+                                    WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                                    WHEN T4.user_id > 0 THEN U.name
+                                    ELSE 'System'
+                                END AS poster_name,
+                                T4.type as thread_type
+                                FROM ".TABLE_PREFIX."ticket T1 
+                                INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                                INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                                INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                                LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                                LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id");
                         break;
                         default:
-                            $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.status_id = '$tStatus'");
+                            $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                                CASE 
+                                    WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                                    WHEN T4.user_id > 0 THEN U.name
+                                    ELSE 'System'
+                                END AS poster_name,
+                                T4.type as thread_type
+                                FROM ".TABLE_PREFIX."ticket T1 
+                                INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                                INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                                INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                                LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                                LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id
+                                WHERE T1.status_id = '$tStatus'");
                         break;
                     }
 
@@ -105,7 +158,20 @@ class Ticket
                     Helper::checkTicketStatus($tStatus);
 
                     // Query
-                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate' AND ".TABLE_PREFIX."ticket.status_id = '$tStatus'");
+                    $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                        CASE 
+                            WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                            WHEN T4.user_id > 0 THEN U.name
+                            ELSE 'System'
+                        END AS poster_name,
+                        T4.type as thread_type
+                        FROM ".TABLE_PREFIX."ticket T1 
+                        INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                        INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                        LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                        LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id
+                        WHERE T1.created >= '$startDate' and T1.created <= '$endDate' AND T1.status_id = '$tStatus'");
 
                 break;
                 default:
@@ -162,7 +228,7 @@ class Ticket
             $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
             // Check Request method
-            $validRequests = array("GET");
+            $validRequests = array("GET", "POST");
             Helper::validRequest($validRequests);
 
             // Connect Database
@@ -170,7 +236,20 @@ class Ticket
             $mysqli = $Dbobj->getDBConnect();
             $tID = $parameters["parameters"]['id'];
 
-            $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.ticket_id = '$tID' OR ".TABLE_PREFIX."ticket.number = '$tID'");
+            $getTickets = $mysqli->query("SELECT T1.*, T2.*, T3.*, T4.*, 
+                CASE 
+                    WHEN T4.staff_id > 0 THEN CONCAT(S.firstname, ' ', S.lastname)
+                    WHEN T4.user_id > 0 THEN U.name
+                    ELSE 'System'
+                END AS poster_name,
+                T4.type as thread_type
+                FROM ".TABLE_PREFIX."ticket T1 
+                INNER JOIN ".TABLE_PREFIX."ticket__cdata T2 ON T1.ticket_id = T2.ticket_id 
+                INNER JOIN ".TABLE_PREFIX."thread T3 ON T3.object_id = T1.ticket_id 
+                INNER JOIN ".TABLE_PREFIX."thread_entry T4 ON T3.id = T4.thread_id 
+                LEFT JOIN ".TABLE_PREFIX."staff S ON T4.staff_id = S.staff_id
+                LEFT JOIN ".TABLE_PREFIX."user U ON T4.user_id = U.id
+                WHERE T1.ticket_id = '$tID' OR T1.number = '$tID'");
 
             // Array that stores all results
             $result = array();
@@ -322,16 +401,32 @@ class Ticket
             $validRequests = array("POST", "PUT");
             Helper::validRequest($validRequests);
 
-            // Expected parameters
-            $expectedParameters = array("ticket_id", "body", "staff_id");
+            // Expected parameters (either staff_id or user_id is required)
+            $expectedParameters = array("ticket_id", "body");
+            if (isset($parameters["parameters"]["user_id"])) {
+                $expectedParameters[] = "user_id";
+            }
+            if (isset($parameters["parameters"]["staff_id"])) {
+                $expectedParameters[] = "staff_id";
+            }
 
             // Check if all paremeters are correct
             Helper::checkRequest($parameters, $expectedParameters);
 
                 // Check if ticket exists
                 if($this->checkExists('ticket_id', $parameters["parameters"]['ticket_id'], "ticket") == 0) { throw new Exception("Ticket does not exist."); }
+                
+                $staff_id = isset($parameters["parameters"]['staff_id']) ? $parameters["parameters"]['staff_id'] : 0;
+                $user_id = isset($parameters["parameters"]['user_id']) ? $parameters["parameters"]['user_id'] : 0;
+                
+                if ($staff_id == 0 && $user_id == 0) {
+                    throw new Exception("Either staff_id or user_id must be provided.");
+                }
+
                 // Check if staff exists
-                if($this->checkExists('staff_id', $parameters["parameters"]['staff_id'], "staff") == 0) { throw new Exception("Staff does not exist."); }
+                if($staff_id > 0 && $this->checkExists('staff_id', $staff_id, "staff") == 0) { throw new Exception("Staff does not exist."); }
+                // Check if user exists
+                if($user_id > 0 && $this->checkExists('id', $user_id, "user") == 0) { throw new Exception("User does not exist."); }
 
                 // Connect Database
                 $Dbobj = new DBConnection(); 
@@ -353,13 +448,15 @@ class Ticket
                     $thread = 'insert into '.TABLE_PREFIX.'thread_entry (';
                     $thread .= 'thread_id,';
                     $thread .= 'staff_id,';
+                    $thread .= 'user_id,';
                     $thread .= 'body,'; 
                     $thread .= 'source,';   
                     $thread .= 'type,';                                                             
                     $thread .= 'created,';
                     $thread .= 'updated) VALUES (';       
                     $thread .= ''.$thread_id.',';
-                    $thread .= ''.$parameters["parameters"]["staff_id"].',';
+                    $thread .= ''.$staff_id.',';
+                    $thread .= ''.$user_id.',';
                     $thread .= '"<p>'.utf8_decode($parameters["parameters"]["body"]).'</p>",';
                     $thread .= '"API",';  
                     $thread .= '"R",';                                       
@@ -377,6 +474,77 @@ class Ticket
 
                 // Send query to be executed
                 return $this->execQuery($threadUpdate);;     
+        }
+
+        public function note($parameters)
+        {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("ticket_id", "body", "staff_id");
+
+            // Check if all paremeters are correct
+            Helper::checkRequest($parameters, $expectedParameters);
+
+                // Check if ticket exists
+                if($this->checkExists('ticket_id', $parameters["parameters"]['ticket_id'], "ticket") == 0) { throw new Exception("Ticket does not exist."); }
+                
+                $staff_id = $parameters["parameters"]['staff_id'];
+                
+                // Check if staff exists
+                if($this->checkExists('staff_id', $staff_id, "staff") == 0) { throw new Exception("Staff does not exist."); }
+
+                // Connect Database
+                $Dbobj = new DBConnection(); 
+                $mysqli = $Dbobj->getDBConnect();
+
+                // Get thread ID from Ticket ID
+                $stmt = $mysqli->prepare("SELECT id FROM ".TABLE_PREFIX."thread WHERE object_id = ? AND object_type = 'T'");
+                $stmt->bind_param('s', $parameters["parameters"]['ticket_id']);
+                $stmt->execute();
+
+                $result = $stmt->get_result();
+                $row = $result->fetch_object();
+                $thread_id = $row->id;
+
+                // Insert into thread_entry (Internal Note 'N')
+                $thread = 'insert into '.TABLE_PREFIX.'thread_entry (';
+                $thread .= 'thread_id,';
+                $thread .= 'staff_id,';
+                $thread .= 'user_id,';
+                $thread .= 'body,';
+                $thread .= 'source,';
+                $thread .= 'type,';
+                $thread .= 'created,';
+                $thread .= 'updated) VALUES (';       
+                $thread .= ''.$thread_id.',';
+                $thread .= ''.$staff_id.',';
+                $thread .= '0,';
+                $thread .= '"<p>'.utf8_decode($parameters["parameters"]["body"]).'</p>",';
+                $thread .= '"API",';  
+                $thread .= '"N",';                                       
+                $thread .= 'now(),';    
+                $thread .= 'now())';
+
+                // Send query to be executed
+                $this->execQuery($thread);
+
+                // Update last update in ticket
+                $ticketUpdate = 'update '.TABLE_PREFIX.'ticket SET ';
+                $ticketUpdate .= 'lastupdate = now(), ';
+                $ticketUpdate .= 'updated = now() WHERE ';       
+                $ticketUpdate .= 'ticket_id = '.$parameters["parameters"]["ticket_id"].'';
+
+                // Send query to be executed
+                return $this->execQuery($ticketUpdate);;     
         }
 
         public function close($parameters)
@@ -422,6 +590,7 @@ class Ticket
                     // Update ticket status
                     $ticketStatusUpdate = 'update '.TABLE_PREFIX.'ticket SET ';
                     $ticketStatusUpdate .= 'status_id = '.$parameters["parameters"]["status_id"].', ';
+                    $ticketStatusUpdate .= 'closed = now(), ';
                     $ticketStatusUpdate .= 'updated = now() WHERE ';       
                     $ticketStatusUpdate .= 'ticket_id = '.$parameters["parameters"]["ticket_id"].'';
 

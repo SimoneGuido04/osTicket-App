@@ -9,7 +9,7 @@ class Faq
         $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
         // Check Request method
-        $validRequests = array("GET");
+        $validRequests = array("GET", "POST");
         Helper::validRequest($validRequests);
 
         // Connect Database
@@ -86,7 +86,7 @@ class Faq
         $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
         // Check Request method
-        $validRequests = array("GET");
+        $validRequests = array("GET", "POST");
         Helper::validRequest($validRequests);
 
         // Connect Database

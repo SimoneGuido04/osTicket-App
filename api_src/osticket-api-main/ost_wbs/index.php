@@ -63,8 +63,13 @@ class OSTicketAPI
                         $time_end = microtime(true);
                         $execution_time = ($time_end - $time_start);
 
-                        if(WRITE_SYSTEMLOG)   
-                            helper::syslog($classe, $method, json_encode($return));
+                        if(WRITE_SYSTEMLOG) {
+                            $logContent = json_encode($return);
+                            if (strlen($logContent) > 500) {
+                                $logContent = substr($logContent, 0, 500) . '... [TRUNCATED]';
+                            }
+                            helper::syslog($classe, $method, $logContent);
+                        }
 
                         // Return values
                         return json_encode(array('status' => 'Success', 'time' => $execution_time, 'data' => $return));  

@@ -1,16 +1,50 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { TicketService, UserService } from '../services/api';
+import { SelectionModal } from '../components/SelectionModal';
+import { UserSelectionModal } from '../components/UserSelectionModal';
+import { DepartmentService, PriorityService, TicketService, TopicService, UserService } from '../services/api';
 
 export default function NewTicketScreen() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
-    const [priorityText, setPriorityText] = useState('Normal');
     const [loading, setLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
+    const [departments, setDepartments] = useState<any[]>([]);
+    const [topics, setTopics] = useState<any[]>([]);
+    const [priorities, setPriorities] = useState<any[]>([]);
+
+    const [selectedDeptId, setSelectedDeptId] = useState<number>(1);
+    const [selectedTopicId, setSelectedTopicId] = useState<number>(1);
+    const [selectedPriorityId, setSelectedPriorityId] = useState<number>(2);
+
+    const [deptModalVisible, setDeptModalVisible] = useState(false);
+    const [topicModalVisible, setTopicModalVisible] = useState(false);
+    const [priorityModalVisible, setPriorityModalVisible] = useState(false);
+
+    useEffect(() => {
+        fetchMetadata();
+    }, []);
+
+    const fetchMetadata = async () => {
+        try {
+            const [deptRes, topicRes, prioRes] = await Promise.all([
+                DepartmentService.getAllDepartments(),
+                TopicService.getAllTopics(),
+                PriorityService.getAllPriorities(),
+            ]);
+            if (deptRes.departments) setDepartments(deptRes.departments);
+            if (topicRes.topics) setTopics(topicRes.topics);
+            if (prioRes.priorities) setPriorities(prioRes.priorities);
+        } catch (error) {
+            console.error('Failed to fetch metadata', error);
+        }
+    };
 
     const handleCreateTicket = async () => {
         if (!email || !subject || !message) {
@@ -21,45 +55,45 @@ export default function NewTicketScreen() {
         setLoading(true);
 
         try {
-            // 1. Find User ID by Email
-            const userResult: any = await UserService.findUserByEmail(email);
-            if (!userResult || !userResult.users || userResult.users.length === 0) {
-                Alert.alert('Error', 'No user found with that email address.');
-                setLoading(false);
-                return;
+            // 1. Find User ID by Email (if not already selected)
+            let userId = selectedUserId;
+            if (!userId) {
+                const userResult: any = await UserService.findUserByEmail(email);
+                if (!userResult || !userResult.users || userResult.users.length === 0) {
+                    Alert.alert('Error', 'No user found with that email address.');
+                    setLoading(false);
+                    return;
+                }
+                userId = userResult.users[0].user_id;
             }
-            const userId = userResult.users[0].user_id;
 
-            // 2. Map Priority
-            const priorityMap: Record<string, number> = {
-                'Low': 1,
-                'Normal': 2,
-                'High': 3,
-                'Emergency': 4
-            };
-            const priorityId = priorityMap[priorityText] || 2;
-
-            // 3. Create Ticket (using default department 1 and topic 1 for now)
+            // 2. Create Ticket
             await TicketService.createTicket({
-                user_id: userId,
+                user_id: userId as number,
                 title: subject,
-                subject: message, // the API expects the body in the 'subject' field for the thread entry
-                priority_id: priorityId,
+                subject: message,
+                priority_id: selectedPriorityId,
                 status_id: 1, // Open
-                dept_id: 1,
+                dept_id: selectedDeptId,
                 sla_id: 1,
-                topic_id: 1
+                topic_id: selectedTopicId
             });
 
             Alert.alert('Success', 'Ticket created successfully!', [
                 { text: 'OK', onPress: () => router.back() }
             ]);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to create ticket', error);
-            Alert.alert('Error', 'Failed to create the ticket. Please try again.');
+            Alert.alert('Error', error.message || 'Failed to create the ticket. Please try again.');
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleSelectUser = (user: { email: string; name: string; user_id: number }) => {
+        setEmail(user.email);
+        setSelectedUserId(user.user_id);
+        setModalVisible(false);
     };
 
     return (
@@ -84,7 +118,7 @@ export default function NewTicketScreen() {
                     <View className="flex-col gap-2 py-3">
                         <View className="flex-row justify-between items-center">
                             <Text className="text-slate-900 dark:text-slate-100 text-base font-medium">User / Requester</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => setModalVisible(true)}>
                                 <Text className="text-primary text-sm font-semibold">Select from Directory</Text>
                             </TouchableOpacity>
                         </View>
@@ -116,31 +150,46 @@ export default function NewTicketScreen() {
                         />
                     </View>
 
+                    {/* Help Topic */}
+                    <View className="flex-col gap-2 py-3">
+                        <Text className="text-slate-900 dark:text-slate-100 text-base font-medium">Help Topic</Text>
+                        <TouchableOpacity
+                            onPress={() => setTopicModalVisible(true)}
+                            className="w-full rounded-lg bg-white dark:bg-slate-800 border border-primary/20 h-14 justify-between items-center px-4 flex-row"
+                        >
+                            <Text className="text-slate-900 dark:text-slate-100 text-base">
+                                {topics.find(t => t.id === selectedTopicId)?.topic || 'Select a topic...'}
+                            </Text>
+                            <MaterialIcons name="keyboard-arrow-down" size={24} color="#94a3b8" />
+                        </TouchableOpacity>
+                    </View>
+
                     {/* Department */}
                     <View className="flex-col gap-2 py-3">
                         <Text className="text-slate-900 dark:text-slate-100 text-base font-medium">Department</Text>
-                        <View className="w-full rounded-lg bg-white dark:bg-slate-800 border border-primary/20 h-14 justify-center px-4">
-                            <Text className="text-slate-500 dark:text-slate-400 text-base">Select a department...</Text>
-                        </View>
-                        {/* Note: Native Picker usually used here, mocked as a touchable for now */}
+                        <TouchableOpacity
+                            onPress={() => setDeptModalVisible(true)}
+                            className="w-full rounded-lg bg-white dark:bg-slate-800 border border-primary/20 h-14 justify-between items-center px-4 flex-row"
+                        >
+                            <Text className="text-slate-900 dark:text-slate-100 text-base">
+                                {departments.find(d => d.department_id === selectedDeptId)?.name || 'Select a department...'}
+                            </Text>
+                            <MaterialIcons name="keyboard-arrow-down" size={24} color="#94a3b8" />
+                        </TouchableOpacity>
                     </View>
 
                     {/* Priority */}
-                    <View className="py-3">
-                        <Text className="text-slate-900 dark:text-slate-100 text-base font-medium pb-2">Priority</Text>
-                        <View className="flex-row h-12 rounded-lg bg-primary/10 p-1">
-                            {['Low', 'Normal', 'High', 'Emergency'].map(p => (
-                                <TouchableOpacity
-                                    key={p}
-                                    onPress={() => setPriorityText(p)}
-                                    className={`flex-1 items-center justify-center rounded-lg ${priorityText === p ? 'bg-white dark:bg-slate-700 shadow-sm' : ''}`}
-                                >
-                                    <Text className={`text-sm font-semibold ${priorityText === p ? 'text-primary' : 'text-slate-500 dark:text-slate-400'}`}>
-                                        {p}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
+                    <View className="flex-col gap-2 py-3">
+                        <Text className="text-slate-900 dark:text-slate-100 text-base font-medium">Priority</Text>
+                        <TouchableOpacity
+                            onPress={() => setPriorityModalVisible(true)}
+                            className="w-full rounded-lg bg-white dark:bg-slate-800 border border-primary/20 h-14 justify-between items-center px-4 flex-row"
+                        >
+                            <Text className="text-slate-900 dark:text-slate-100 text-base">
+                                {priorities.find(p => p.id === selectedPriorityId)?.name || 'Select priority...'}
+                            </Text>
+                            <MaterialIcons name="keyboard-arrow-down" size={24} color="#94a3b8" />
+                        </TouchableOpacity>
                     </View>
 
                     {/* Message */}
@@ -182,6 +231,36 @@ export default function NewTicketScreen() {
 
                 </ScrollView>
             </KeyboardAvoidingView>
+
+            <UserSelectionModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onSelect={handleSelectUser}
+            />
+
+            <SelectionModal
+                visible={deptModalVisible}
+                onClose={() => setDeptModalVisible(false)}
+                onSelect={(val) => setSelectedDeptId(val)}
+                title="Select Department"
+                options={departments.map(d => ({ label: d.name, value: d.department_id }))}
+            />
+
+            <SelectionModal
+                visible={topicModalVisible}
+                onClose={() => setTopicModalVisible(false)}
+                onSelect={(val) => setSelectedTopicId(val)}
+                title="Select Help Topic"
+                options={topics.map(t => ({ label: t.topic, value: t.id }))}
+            />
+
+            <SelectionModal
+                visible={priorityModalVisible}
+                onClose={() => setPriorityModalVisible(false)}
+                onSelect={(val) => setSelectedPriorityId(val)}
+                title="Select Priority"
+                options={priorities.map(p => ({ label: p.name, value: p.id }))}
+            />
         </SafeAreaView>
     );
 }

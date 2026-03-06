@@ -7,7 +7,7 @@ class User
             $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
             // Check Request method
-            $validRequests = array("GET");
+            $validRequests = array("GET", "POST");
             Helper::validRequest($validRequests);
 
             // Connect Database
@@ -23,8 +23,13 @@ class User
                     $endDate = $parameters['parameters']['end_date'];
 
                     // Query
-                    $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user WHERE ".TABLE_PREFIX."user.created >= '$startDate' and ".TABLE_PREFIX."user.created <= '$endDate'");
+                    $getUser = $mysqli->query("SELECT T1.*, T2.address as email FROM ".TABLE_PREFIX."user T1 INNER JOIN ".TABLE_PREFIX."user_email T2 ON T1.id = T2.user_id WHERE T1.created >= '$startDate' and T1.created <= '$endDate'");
 
+                break;
+                // Search by Name or Email
+                case "search":
+                    $q = $parameters['parameters']['q'];
+                    $getUser = $mysqli->query("SELECT T1.*, T2.address as email FROM ".TABLE_PREFIX."user T1 INNER JOIN ".TABLE_PREFIX."user_email T2 ON T1.id = T2.user_id WHERE T1.name LIKE '%$q%' OR T2.address LIKE '%$q%' LIMIT 50");
                 break;
                 default:
                     throw new Exception("Unknown Parameter.");
@@ -42,6 +47,7 @@ class User
                         array(
                             'user_id'=>$PrintUsers->id,
                             'name'=>utf8_encode($PrintUsers->name),
+                            'email'=>$PrintUsers->email,
                             'created'=>$PrintUsers->created
                       ));   
 
@@ -65,7 +71,7 @@ class User
             $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
             // Check Request method
-            $validRequests = array("GET");
+            $validRequests = array("GET", "POST");
             Helper::validRequest($validRequests);
 
             // Connect Database
@@ -92,6 +98,11 @@ class User
                     // set query
                     $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user INNER JOIN ".TABLE_PREFIX."user_email ON ".TABLE_PREFIX."user.id = ".TABLE_PREFIX."user_email.user_id WHERE ".TABLE_PREFIX."user_email.address = '$uEmail'");
 
+                break;
+                // Sorte by Staff Email (Custom added for App to get staff_id)
+                case "staff_email":
+                    $uEmail = $parameters["parameters"]["email"];
+                    $getUser = $mysqli->query("SELECT staff_id as id, CONCAT(firstname, ' ', lastname) as name, created FROM ".TABLE_PREFIX."staff WHERE email = '$uEmail'");
                 break;
                 default:
                     throw new Exception("Unknown Parameter.");

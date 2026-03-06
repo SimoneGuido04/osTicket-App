@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useColorScheme } from 'nativewind';
 import React, { useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../../hooks/useAuth';
@@ -10,7 +11,8 @@ export default function ProfileScreen() {
 
     const [pushEnabled, setPushEnabled] = useState(true);
     const [emailEnabled, setEmailEnabled] = useState(false);
-    const [darkMode, setDarkMode] = useState(true);
+    const { colorScheme, setColorScheme } = useColorScheme();
+    const isDarkMode = colorScheme === 'dark';
 
     const handleLogout = () => {
         Alert.alert('Logout', 'Are you sure you want to log out?', [
@@ -121,8 +123,8 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <Switch
-                            value={darkMode}
-                            onValueChange={setDarkMode}
+                            value={isDarkMode}
+                            onValueChange={(val) => setColorScheme(val ? 'dark' : 'light')}
                             trackColor={{ false: '#cbd5e1', true: '#128c7e' }}
                         />
                     </View>

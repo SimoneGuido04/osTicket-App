@@ -19,7 +19,7 @@ export default function DashboardScreen() {
             const tickets = data?.tickets || [];
 
             setStats({
-                open: tickets.length,
+                open: tickets.filter((t: any) => String(t.status_id) === '1').length,
                 overdue: tickets.filter((t: any) => String(t.isoverdue) === '1').length,
                 assigned: tickets.filter((t: any) => t.staff_id && t.staff_id === user?.id).length
             });

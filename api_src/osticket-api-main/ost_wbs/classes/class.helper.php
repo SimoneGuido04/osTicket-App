@@ -111,8 +111,8 @@ class Helper
 
             // Check for empty fields
             foreach ($expectedParameters as $key => $value) {
-                if(empty($parameters["parameters"][$value])) {
-                    array_push($errors,"Empty or Incorrect fields were given.");
+                if(!isset($parameters["parameters"][$value]) || ($parameters["parameters"][$value] === "" && $parameters["parameters"][$value] !== "0" && $parameters["parameters"][$value] !== 0)) {
+                    array_push($errors,"Empty or Incorrect fields were given: " . $value);
                 }
             }
 
@@ -125,7 +125,7 @@ class Helper
 
             // If no errors, continue
             if(count($errors) > 0){
-                throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+                throw new Exception("Validation Errors: " . implode(" | ", $errors)); 
             } 
 
         } else {

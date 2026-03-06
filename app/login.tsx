@@ -22,7 +22,15 @@ export default function LoginScreen() {
 
         try {
             // Check if user exists using the BMSVieira API
-            const result: any = await UserService.findUserByEmail(email);
+            // First try to find a staff member (since this app is primarily for agents)
+            let result: any = await UserService.findStaffByEmail(email).catch(() => null);
+            let isAgent = true;
+
+            if (!result || !result.users || result.users.length === 0) {
+                // If no staff found, try to find a regular user
+                result = await UserService.findUserByEmail(email);
+                isAgent = false;
+            }
 
             if (!result || !result.users || result.users.length === 0) {
                 Alert.alert('Login Failed', 'No account found with this email address.');
@@ -37,7 +45,7 @@ export default function LoginScreen() {
                 id: userData.user_id,
                 username: userData.name,
                 email: email,
-                role: 'Agent'
+                role: isAgent ? 'Agent' : 'User'
             });
 
             // Ask for biometrics if available
