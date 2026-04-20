@@ -208,7 +208,10 @@ export default function NewTicketScreen() {
 
                     {/* Attachments */}
                     <View className="py-3 mt-2">
-                        <TouchableOpacity className="flex-row items-center justify-center w-full gap-2 rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 p-4">
+                        <TouchableOpacity
+                            className="flex-row items-center justify-center w-full gap-2 rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 p-4"
+                            onPress={() => Alert.alert('Coming Soon', 'Attachments functionality will be available in a future update.')}
+                        >
                             <MaterialIcons name="attach-file" size={24} color="#128c7e" />
                             <Text className="text-primary font-medium">Attach Files</Text>
                         </TouchableOpacity>

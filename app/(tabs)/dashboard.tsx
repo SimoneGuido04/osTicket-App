@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { LineChart } from 'react-native-chart-kit';
 import { useAuth } from '../../hooks/useAuth';
 import { TicketService } from '../../services/api';
 
@@ -11,6 +12,10 @@ export default function DashboardScreen() {
     const [refreshing, setRefreshing] = useState(false);
     const [stats, setStats] = useState({ open: 0, overdue: 0, assigned: 0 });
     const [recentTickets, setRecentTickets] = useState<any[]>([]);
+    const [chartData, setChartData] = useState<{ labels: string[], data: number[] }>({ labels: [], data: [] });
+
+    // Get screen width for chart
+    const screenWidth = Dimensions.get('window').width;
 
     const fetchDashboardData = async () => {
         try {
@@ -27,6 +32,32 @@ export default function DashboardScreen() {
             // Grab the 3 most recently updated tickets as 'recent updates'
             const sorted = [...tickets].sort((a: any, b: any) => new Date(b.updated).getTime() - new Date(a.updated).getTime());
             setRecentTickets(sorted.slice(0, 3));
+
+            // Prepare Chart Data (Aggregating tickets created over the last 7 days)
+            const labels: string[] = [];
+            const counts: number[] = [0, 0, 0, 0, 0, 0, 0];
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                labels.push(d.toLocaleDateString(undefined, { weekday: 'short' }));
+            }
+
+            tickets.forEach((t: any) => {
+                const createdDate = new Date(t.created);
+                createdDate.setHours(0, 0, 0, 0);
+                const diffTime = Math.abs(today.getTime() - createdDate.getTime());
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays < 7) {
+                    // Match to the correct bucket (0 is today = index 6, 1 is yesterday = index 5, etc)
+                    counts[6 - diffDays]++;
+                }
+            });
+
+            setChartData({ labels, data: counts });
 
         } catch (error) {
             console.error('Failed to fetch dashboard data', error);
@@ -118,31 +149,42 @@ export default function DashboardScreen() {
                         </View>
                     </View>
 
-                    {/* Chart Placeholder */}
+                    {/* Ticket Volume Chart */}
                     <View className="px-4 py-2">
                         <View className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-primary/5 shadow-sm">
                             <View className="flex-row justify-between items-end mb-6">
                                 <View>
                                     <Text className="text-slate-900 dark:text-slate-100 text-lg font-bold">Ticket Volume</Text>
-                                    <Text className="text-slate-500 dark:text-slate-400 text-sm">Activity over the last 7 days</Text>
-                                </View>
-                                <View className="items-end">
-                                    <Text className="text-slate-900 dark:text-slate-100 text-3xl font-bold">{stats.open}</Text>
-                                    <Text className="text-primary text-xs font-bold uppercase">Total</Text>
+                                    <Text className="text-slate-500 dark:text-slate-400 text-sm">Tickets opened over last 7 days</Text>
                                 </View>
                             </View>
 
-                            {/* Mock Chart Area */}
-                            <View className="h-40 w-full bg-primary/5 rounded-lg border border-primary/10 items-center justify-center mb-6">
-                                <MaterialIcons name="show-chart" size={48} color="#128c7e" opacity={0.5} />
-                                <Text className="text-slate-400 text-xs mt-2">Chart data unavailable</Text>
-                            </View>
-
-                            <View className="flex-row justify-between px-2">
-                                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                                    <Text key={day} className="text-slate-400 text-xs font-bold uppercase">{day}</Text>
-                                ))}
-                            </View>
+                            {chartData.labels.length > 0 && (
+                                <View className="-ml-4 overflow-hidden rounded-xl">
+                                    <LineChart
+                                        data={{
+                                            labels: chartData.labels,
+                                            datasets: [{ data: chartData.data }]
+                                        }}
+                                        width={screenWidth - 60} // Padding accounted for
+                                        height={180}
+                                        chartConfig={{
+                                            backgroundColor: 'transparent',
+                                            backgroundGradientFrom: '#ffffff',
+                                            backgroundGradientTo: '#ffffff',
+                                            backgroundGradientFromOpacity: 0,
+                                            backgroundGradientToOpacity: 0,
+                                            decimalPlaces: 0,
+                                            color: (opacity = 1) => `rgba(18, 140, 126, ${opacity})`, // Primary color
+                                            labelColor: (opacity = 1) => `rgba(148, 163, 184, ${opacity})`, // slate-400
+                                            style: { borderRadius: 16 },
+                                            propsForDots: { r: '4', strokeWidth: '2', stroke: '#128c7e' }
+                                        }}
+                                        bezier
+                                        style={{ marginVertical: 8, borderRadius: 16 }}
+                                    />
+                                </View>
+                            )}
                         </View>
                     </View>
 

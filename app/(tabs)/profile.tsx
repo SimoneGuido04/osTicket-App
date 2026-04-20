@@ -1,6 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
+import React, { useEffect, useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useColorScheme } from '../../hooks/use-color-scheme';
 import { useAuth } from '../../hooks/useAuth';
@@ -11,6 +12,26 @@ export default function ProfileScreen() {
 
     const [pushEnabled, setPushEnabled] = useState(true);
     const [emailEnabled, setEmailEnabled] = useState(false);
+
+    useEffect(() => {
+        const loadPreferences = async () => {
+            const push = await SecureStore.getItemAsync('pushEnabled');
+            const email = await SecureStore.getItemAsync('emailEnabled');
+            if (push !== null) setPushEnabled(push === 'true');
+            if (email !== null) setEmailEnabled(email === 'true');
+        };
+        loadPreferences();
+    }, []);
+
+    const togglePush = async (value: boolean) => {
+        setPushEnabled(value);
+        await SecureStore.setItemAsync('pushEnabled', String(value));
+    };
+
+    const toggleEmail = async (value: boolean) => {
+        setEmailEnabled(value);
+        await SecureStore.setItemAsync('emailEnabled', String(value));
+    };
     const { colorScheme, setColorScheme } = useColorScheme();
     const isDarkMode = colorScheme === 'dark';
 
@@ -70,7 +91,7 @@ export default function ProfileScreen() {
                         </View>
                         <Switch
                             value={pushEnabled}
-                            onValueChange={setPushEnabled}
+                            onValueChange={togglePush}
                             trackColor={{ false: '#cbd5e1', true: '#128c7e' }}
                         />
                     </View>
@@ -87,7 +108,7 @@ export default function ProfileScreen() {
                         </View>
                         <Switch
                             value={emailEnabled}
-                            onValueChange={setEmailEnabled}
+                            onValueChange={toggleEmail}
                             trackColor={{ false: '#cbd5e1', true: '#128c7e' }}
                         />
                     </View>
@@ -99,7 +120,10 @@ export default function ProfileScreen() {
                         Personalization
                     </Text>
 
-                    <TouchableOpacity className="flex-row items-center px-4 py-3 border-b border-primary/5 bg-background-light dark:bg-background-dark justify-between">
+                    <TouchableOpacity
+                        className="flex-row items-center px-4 py-3 border-b border-primary/5 bg-background-light dark:bg-background-dark justify-between"
+                        onPress={() => Alert.alert('Coming Soon', 'Email signature settings will be available in a future update.')}
+                    >
                         <View className="flex-row items-center gap-4 flex-1">
                             <View className="size-10 rounded-lg bg-primary/10 items-center justify-center">
                                 <MaterialIcons name="draw" size={20} color="#128c7e" />
